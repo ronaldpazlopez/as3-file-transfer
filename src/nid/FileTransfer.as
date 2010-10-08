@@ -24,21 +24,32 @@
 		private function configUI(e:Event):void
 		{
 			setDock();
+			mainWindow = new MainWindow();
+			addChild(mainWindow);
+			mainWindow.x = 6;
+			mainWindow.y = 6;
 			
-			titleBar.addEventListener(MouseEvent.MOUSE_DOWN, mouseDrag);
-			_close.addEventListener(MouseEvent.CLICK, closeApp);
-			_mini.addEventListener(MouseEvent.CLICK, dock);
+			progressWindow = new ProgressWindow();
+			progressWindow.visible = false;
+			addChild(progressWindow);
+			saveWindow = new SaveWindow();
+			saveWindow.visible = false;
+			addChild(saveWindow);			
+			
+			mainWindow.titleBar.addEventListener(MouseEvent.MOUSE_DOWN, mouseDrag);
+			mainWindow._close.addEventListener(MouseEvent.CLICK, closeApp);
+			mainWindow._mini.addEventListener(MouseEvent.CLICK, dock);
 			progressWindow.cancel.addEventListener(MouseEvent.CLICK, onTransferCancel);
 			saveWindow.cancel.addEventListener(MouseEvent.CLICK, onSaveCancel);
 			saveWindow.save.addEventListener(MouseEvent.CLICK, saveFile);
 			
-			dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER,doDragEnter);
-			dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP,doDragDrop);
-			dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_EXIT, doDragExit);
+			mainWindow.dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER,doDragEnter);
+			mainWindow.dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP,doDragDrop);
+			mainWindow.dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_EXIT, doDragExit);
 			
 			configP2PTransfer();
-			titleBar.indicator.buttonMode = true;
-			titleBar.indicator.addEventListener(MouseEvent.MOUSE_DOWN, p2pTransfer.toggleConnection);
+			mainWindow.titleBar.indicator.buttonMode = true;
+			mainWindow.titleBar.indicator.addEventListener(MouseEvent.MOUSE_DOWN, p2pTransfer.toggleConnection);
 			
 			stage.nativeWindow.x = Screen.mainScreen.visibleBounds.width - stage.nativeWindow.width;
 			stage.nativeWindow.y = Screen.mainScreen.visibleBounds.height - stage.nativeWindow.height;
@@ -46,7 +57,7 @@
 		
 		private function saveFile(e:MouseEvent):void 
 		{
-			path_txt.htmlText = "<b>Drag and drop files here</b>";
+			mainWindow.path_txt.htmlText = "<b>Drag and drop files here</b>";
 			
 			var file:File = File.desktopDirectory.resolvePath(p2pTransfer.ReceivedFileName);
 			file.addEventListener(Event.SELECT, onFileSelect);
@@ -69,14 +80,14 @@
 		
 		private function onTransferCancel(e:MouseEvent):void 
 		{
-			path_txt.htmlText = "<b>Drag and drop files here</b>";
+			mainWindow.path_txt.htmlText = "<b>Drag and drop files here</b>";
 			progressWindow.x = stage.stageWidth + 10;
 			progressWindow.y = stage.stageHeight + 10;
 			progressWindow.visible = false;
 		}		
 		private function onSaveCancel(e:Event=null):void
 		{
-			path_txt.htmlText = "<b>Drag and drop files here</b>";
+			mainWindow.path_txt.htmlText = "<b>Drag and drop files here</b>";
 			saveWindow.x = stage.stageWidth + 10;
 			saveWindow.y = stage.stageHeight + 10;
 			saveWindow.visible = false;
@@ -92,25 +103,25 @@
 		private function HandleConnection(e:Event):void 
 		{
 			if (e.type == "connected") {
-				titleBar.indicator.gotoAndStop(2);
+				mainWindow.titleBar.indicator.gotoAndStop(2);
 			}else {
-				titleBar.indicator.gotoAndStop(1);
+				mainWindow.titleBar.indicator.gotoAndStop(1);
 			}
 		}
 		private function doDragDrop(e:NativeDragEvent):void
 		{
-			path_txt.text = "";
+			mainWindow.path_txt.text = "";
 			var dropFiles:Array = e.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
 			for each (var file:File in dropFiles)
 			{
-				path_txt.appendText(file.nativePath);
+				mainWindow.path_txt.appendText(file.nativePath);
 				p2pTransfer.sendFile(file);
 			}
 			onProgress();
 		}
 		protected function doDragEnter(e:NativeDragEvent):void
 		{
-			NativeDragManager.acceptDragDrop(dropBox);
+			NativeDragManager.acceptDragDrop(mainWindow.dropBox);
 		}
 		protected function doDragExit(e:NativeDragEvent):void
 		{
