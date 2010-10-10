@@ -10,6 +10,8 @@ package nid.events
 	{
 		public static const CONNECTED:String = "connected";
 		public static const DISCONNECTED:String = "disconnected";
+		public static const GROUP_CONNECTED:String = "group_connected";
+		public static const GROUP_DISCONNECTED:String = "group_disconnected";
 		
 		public function ConnectionEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 

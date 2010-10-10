@@ -47,7 +47,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\Skin.swc" />
+    <element path="src\skin\Skin.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
@@ -81,6 +81,6 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Custom" />
-    <option testMovieCommand="D:\Nidin Data\WORK DESK\PLATFORMS\Flex SDK\flex_sdk_4.1\bin\adl.exe;application.xml bin" />
+    <option testMovieCommand="E:\WORK\WORK DESK\PLATFORMS\flex_sdk_4.1\bin\adl.exe;application.xml bin" />
   </options>
 </project>

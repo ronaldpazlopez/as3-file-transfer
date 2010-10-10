@@ -13,6 +13,7 @@
 	import flash.system.Capabilities;
 	import nid.events.ConnectionEvent;
 	import nid.events.NetStreamDataEvent;
+	import nid.net.P2PTransfer;
 
 	public class FileTransfer extends BaseApp
 	{
@@ -32,16 +33,28 @@
 			progressWindow = new ProgressWindow();
 			progressWindow.visible = false;
 			addChild(progressWindow);
+			
 			saveWindow = new SaveWindow();
 			saveWindow.visible = false;
-			addChild(saveWindow);			
+			addChild(saveWindow);
+			
+			acceptWindow = new AcceptWindow();
+			acceptWindow.visible = false;
+			addChild(acceptWindow);
+			
+			
 			
 			mainWindow.titleBar.addEventListener(MouseEvent.MOUSE_DOWN, mouseDrag);
 			mainWindow._close.addEventListener(MouseEvent.CLICK, closeApp);
 			mainWindow._mini.addEventListener(MouseEvent.CLICK, dock);
+			
 			progressWindow.cancel.addEventListener(MouseEvent.CLICK, onTransferCancel);
-			saveWindow.cancel.addEventListener(MouseEvent.CLICK, onSaveCancel);
+			
 			saveWindow.save.addEventListener(MouseEvent.CLICK, saveFile);
+			saveWindow.cancel.addEventListener(MouseEvent.CLICK, onSaveCancel);
+			
+			acceptWindow.accept.addEventListener(MouseEvent.CLICK,onAcceptData );
+			acceptWindow.cancel.addEventListener(MouseEvent.CLICK, onCancelData);
 			
 			mainWindow.dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER,doDragEnter);
 			mainWindow.dropBox.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP,doDragDrop);
@@ -55,8 +68,20 @@
 			stage.nativeWindow.y = Screen.mainScreen.visibleBounds.height - stage.nativeWindow.height;
 		}
 		
-		private function saveFile(e:MouseEvent):void 
+		private function onCancelData(e:MouseEvent):void 
 		{
+			activateAcceptWindow(false); 
+			p2pTransfer.AcceptFile(false);
+		}
+		
+		private function onAcceptData(e:MouseEvent):void 
+		{
+			activateAcceptWindow(false); 
+			onProgress();
+			p2pTransfer.AcceptFile(true);
+		}
+		
+		private function saveFile(e:MouseEvent):void {
 			mainWindow.path_txt.htmlText = "<b>Drag and drop files here</b>";
 			
 			var file:File = File.desktopDirectory.resolvePath(p2pTransfer.ReceivedFileName);
@@ -65,8 +90,7 @@
 			file.browseForSave('Save Received File');
 		}
 		
-		private function onFileSelect(e:Event):void 
-		{
+		private function onFileSelect(e:Event):void {
 			var file:File = e.currentTarget as File;
 			if(!file.extension || file.extension != p2pTransfer.ReceivedFileExtension){
 				file.nativePath += "." + p2pTransfer.ReceivedFileExtension;
@@ -78,7 +102,7 @@
 			onSaveCancel();
 		}
 		
-		private function onTransferCancel(e:MouseEvent):void 
+		private function onTransferCancel(e:MouseEvent=null):void 
 		{
 			mainWindow.path_txt.htmlText = "<b>Drag and drop files here</b>";
 			progressWindow.x = stage.stageWidth + 10;
@@ -96,8 +120,32 @@
 			p2pTransfer = new P2PTransfer();
 			p2pTransfer.addEventListener(ConnectionEvent.CONNECTED, HandleConnection);
 			p2pTransfer.addEventListener(ConnectionEvent.DISCONNECTED, HandleConnection);
-			p2pTransfer.addEventListener(NetStreamDataEvent.DATA_RECEIVED, onReceiveData);
+			p2pTransfer.addEventListener(NetStreamDataEvent.DATA_TRANSFER_PROGRESS, HandleDataEvent);
+			p2pTransfer.addEventListener(NetStreamDataEvent.DATA_TRANSFER_COMPLETED, HandleDataEvent);
+			p2pTransfer.addEventListener(NetStreamDataEvent.DATA_RECEIVED, HandleDataEvent);
 			p2pTransfer.init();
+		}
+		
+		private function HandleDataEvent(e:NetStreamDataEvent):void 
+		{
+			switch(e.type) {
+				
+				case NetStreamDataEvent.DATA_TRANSFER_PROGRESS:
+					progressWindow.status('Please wait...');
+					progressWindow.percent(int(e.bytesLoaded / e.bytesTotal * 100));
+				break;
+				
+				case NetStreamDataEvent.DATA_TRANSFER_COMPLETED:
+					onTransferCancel();
+					activateSaveWindow(true);
+					trace('DATA_TRANSFER_COMPLETED');
+				break;
+				
+				case NetStreamDataEvent.DATA_RECEIVED:
+					trace('DATA_RECEIVED');
+					activateAcceptWindow(true);
+				break;
+			}
 		}
 		
 		private function HandleConnection(e:Event):void 
@@ -137,13 +185,34 @@
 			progressWindow.y = 110;
 		}
 		/**
+		 * Activate Accept Window
+		 */
+		private function activateAcceptWindow(b:Boolean):void 
+		{
+			if(b){
+				acceptWindow.visible = true;
+				acceptWindow.x = 128;
+				acceptWindow.y = 120;
+			}else {
+				acceptWindow.visible = false;
+				acceptWindow.x = 128;
+				acceptWindow.y = 120;
+			}
+		}
+		/**
 		 * Receive data
 		 */
-		private function onReceiveData(e:NetStreamDataEvent):void 
+		private function activateSaveWindow(b:Boolean):void 
 		{
-			saveWindow.visible = true;
-			saveWindow.x = 128;
-			saveWindow.y = 120;
+			if(b){
+				saveWindow.visible = true;
+				saveWindow.x = 128;
+				saveWindow.y = 120;
+			}else {
+				saveWindow.visible = false;
+				saveWindow.x = 128;
+				saveWindow.y = 120;
+			}
 		}
 	}
 }

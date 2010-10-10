@@ -5,7 +5,7 @@
 :: http://livedocs.adobe.com/flex/3/html/help.html?content=CommandLineTools_5.html#1035959
 
 :: Path to Flex SDK binaries
-set PATH=%PATH%;D:\Nidin Data\WORK DESK\PLATFORMS\Flex SDK\flex_sdk_4.1\bin
+set PATH=%PATH%;E:\WORK\WORK DESK\PLATFORMS\flex_sdk_4.1\bin
 
 :: Signature (see 'CreateCertificate.bat')
 set CERTIFICATE="FileTransfer.pfx"
