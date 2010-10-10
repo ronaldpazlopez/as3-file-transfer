@@ -6,7 +6,7 @@
 :: http://livedocs.adobe.com/flex/3/html/distributing_apps_4.html#1037515
 
 :: Path to Flex SDK binaries
-set PATH=%PATH%;D:\Nidin Data\WORK DESK\PLATFORMS\Flex SDK\flex_sdk_4.1\bin
+set PATH=%PATH%;E:\WORK\WORK DESK\PLATFORMS\flex_sdk_4.1\bin
 
 :: Certificate information
 set NAME="FileTransfer"

@@ -2,6 +2,7 @@ package nid
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import nid.net.P2PTransfer;
 	
 	/**
 	 * ...
@@ -13,6 +14,7 @@ package nid
 		protected var mainWindow:MainWindow;
 		protected var progressWindow:ProgressWindow;
 		protected var saveWindow:SaveWindow;
+		protected var acceptWindow:AcceptWindow;
 		
 		public function AppMembers() 
 		{

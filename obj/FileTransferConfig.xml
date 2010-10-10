@@ -6,29 +6,29 @@
   <compiler>
     <define append="true">
       <name>CONFIG::debug</name>
-      <value>false</value>
-    </define>
-    <define append="true">
-      <name>CONFIG::release</name>
       <value>true</value>
     </define>
     <define append="true">
+      <name>CONFIG::release</name>
+      <value>false</value>
+    </define>
+    <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'10/8/2010'</value>
+      <value>'10/10/2010'</value>
     </define>
     <source-path append="true">
-      <path-element>D:\Nidin Data\WORK DESK\AIR LAB\FileTransfer\as3-file-transfer\src</path-element>
-      <path-element>D:\Nidin Data\WORK DESK\LIBRARY\ActionScript Global Classes</path-element>
-      <path-element>D:\Nidin Data\WORK DESK\LIBRARY\TWEENER\Tweener\tweener_1_33_74_as3</path-element>
-      <path-element>D:\Nidin Data\WORK DESK\LIBRARY\3D Engine\away3D\FP10\away3d_3_5_0\src</path-element>
-      <path-element>d:\Program Files\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>E:\WORK\WORK DESK\LAB\A3-FileTransfer\src</path-element>
+      <path-element>E:\WORK\WORK DESK\LIBRARY\Tweener</path-element>
+      <path-element>E:\WORK\as3Classes\tween\greensock-as3</path-element>
+      <path-element>E:\WORK\WORK DESK\LIBRARY\AS3 Global Classes</path-element>
+      <path-element>C:\Program Files\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\Nidin Data\WORK DESK\AIR LAB\FileTransfer\as3-file-transfer\lib\Skin.swc</path-element>
+      <path-element>E:\WORK\WORK DESK\LAB\A3-FileTransfer\src\skin\Skin.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\Nidin Data\WORK DESK\AIR LAB\FileTransfer\as3-file-transfer\src\nid\FileTransfer.as</path-element>
+    <path-element>E:\WORK\WORK DESK\LAB\A3-FileTransfer\src\nid\FileTransfer.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
