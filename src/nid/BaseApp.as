@@ -11,7 +11,7 @@ package nid
 	import flash.events.NativeDragEvent;
 	
 	/**
-	 * ...
+	 * New change for v1.2
 	 * @author Nidin P Vinayakan
 	 */
 	public class BaseApp extends AppMembers 
