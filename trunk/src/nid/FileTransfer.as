@@ -20,6 +20,7 @@
 		/**
 		 *
 		 * This is a new change for v1
+		 * This is a new change for v1.2
 		 */
 		public function FileTransfer()
 		{
