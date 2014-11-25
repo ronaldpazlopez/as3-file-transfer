@@ -17,7 +17,11 @@
 
 	public class FileTransfer extends BaseApp
 	{
-		
+		/**
+		 *
+		 * This is a new change for v1
+		 * This is a new change for v1.2
+		 */
 		public function FileTransfer()
 		{
 			addEventListener(Event.ADDED_TO_STAGE, configUI);
